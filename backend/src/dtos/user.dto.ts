@@ -13,7 +13,6 @@ export class UserDTO {
         user._id,
         user.username,
         user.role,
-  
       );
     }
   }

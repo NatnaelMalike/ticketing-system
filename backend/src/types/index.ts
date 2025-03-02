@@ -7,6 +7,10 @@ export interface IUser {
     role: UserRole;
 }
 
+export interface IAuthUser{
+    _id: Schema.Types.ObjectId;
+    role: UserRole;
+}
 export interface ITicket {
     title: string;
     description: string;
@@ -15,3 +19,11 @@ export interface ITicket {
 }
 
 export type UserRole = 'user' | 'admin'
+
+declare global {
+    namespace Express {
+      interface Request {
+        user?: IAuthUser;
+      }
+    }
+  }
