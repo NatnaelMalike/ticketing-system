@@ -1,9 +1,10 @@
 import { Schema } from "mongoose";
 
 export interface IUser {
+    _id: Schema.Types.ObjectId
     username: string;
     password: string;
-    role: 'user' | 'admin';
+    role: UserRole;
 }
 
 export interface ITicket {
@@ -12,3 +13,5 @@ export interface ITicket {
     status: 'Open' | 'In Progress' | 'Closed';
     createdBy: Schema.Types.ObjectId;
 }
+
+export type UserRole = 'user' | 'admin'
