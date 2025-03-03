@@ -13,10 +13,12 @@ const authMiddleware: RequestHandler = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, jwtSecret as string) as IAuthUser;
     req.user = decoded;
-    next();
+    return next();
+    
     
   } catch (error) {
     res.status(401).json({ message: "Invalid authentication token." });
+    return
   }
 };
 
