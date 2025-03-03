@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import Ticket from "../models/Ticket";
 import { asyncHandler } from "../middleware/asyncHandler.middleware";
+import { isValidObjectId } from "mongoose";
 
 export const getTickets: RequestHandler = asyncHandler(async (req, res) => {
   const tickets =
@@ -19,6 +20,10 @@ export const createTicket: RequestHandler = asyncHandler( async (req, res)=>{
 
 export const updateTicket: RequestHandler = asyncHandler(async (req, res)=>{
     const {status} = req.body
+    if (!isValidObjectId(req.params.id)) {
+        res.status(400).json({ message: "Invalid Ticket id." });
+        return;
+      }
     const ticket = await Ticket.findByIdAndUpdate(req.params.id, {status}, {new: true})
     if(!ticket){
          res.status(404).json({ message: 'Ticket not found' });
