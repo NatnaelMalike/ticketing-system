@@ -19,4 +19,6 @@ const authMiddleware: RequestHandler = (req, res, next) => {
     res.status(401).json({ message: "Invalid authentication token." });
   }
 };
+
+
 export{authMiddleware}

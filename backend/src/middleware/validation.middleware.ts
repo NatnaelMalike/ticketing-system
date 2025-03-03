@@ -17,7 +17,6 @@ const validate =
           res.status(400).json({ ...errors[0] });
           return;
     }
-
     next();
   };
 
