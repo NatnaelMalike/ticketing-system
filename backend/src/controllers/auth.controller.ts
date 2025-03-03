@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { generateAuthToken } from "../services/token.service";
 import { UserDTO } from "../dtos/user.dto";
 
-export const login: RequestHandler = async (req, res, next) => {
+export const login: RequestHandler = async (req, res) => {
   const { username, password, remember } = req.body;
   const user = await User.findOne({ username });
   if (!user) {

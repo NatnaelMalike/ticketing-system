@@ -23,7 +23,7 @@ export type UserRole = 'user' | 'admin'
 declare global {
     namespace Express {
       interface Request {
-        user?: IAuthUser;
+        user: IAuthUser;
       }
     }
   }
