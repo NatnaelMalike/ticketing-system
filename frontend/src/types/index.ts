@@ -3,7 +3,7 @@ export interface Ticket {
     title: string;
     description: string;
     status: 'Open' | 'In Progress' | 'Closed';
-    userId: string;
+    createdBy: string;
     createdAt?: string;
   }
   
@@ -12,7 +12,8 @@ export interface Ticket {
   }
   
   export interface UserCredentials {
-    email: string;
+    username: string;
     password: string;
     role?: 'user' | 'admin';
+    remember?: boolean;
   }

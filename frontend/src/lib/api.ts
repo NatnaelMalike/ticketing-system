@@ -13,8 +13,9 @@ const getAuthConfig = (token: string | null): AxiosRequestConfig => ({
 });
 
 // API request functions
-export const signup = async (credentials: UserCredentials): Promise<void> => {
-  await axiosInstance.post("/auth/signup", credentials);
+export const signup = async (credentials: UserCredentials): Promise<AuthResponse> => {
+  const response = await axiosInstance.post("/auth/signup", credentials);
+  return response.data;
 };
 
 export const login = async (
@@ -60,7 +61,7 @@ export const createTicket = async (
   return response.data;
 };
 
-export const updateTicket = async (
+export const modifyTicketStatus = async (
   id: string,
   ticketData: Partial<Ticket>,
   token: string | null
