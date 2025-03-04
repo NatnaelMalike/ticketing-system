@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { login, signup } from '../lib/api';
-import { AuthResponse } from '../types';
+import { AuthResponse, UserCredentials } from '../types';
 import { AppDispatch } from '.';
 
 
@@ -33,7 +33,7 @@ export const loginUser = (credentials: { username: string; password: string }) =
   dispatch(loginSuccess({ token: response.token }));
 };
 
-export const signupUser = (credentials: { username: string; password: string; role?: 'user' | 'admin' }) => async (
+export const signupUser = (credentials: UserCredentials ) => async (
   dispatch: AppDispatch
 ) => {
   const response = await signup(credentials);

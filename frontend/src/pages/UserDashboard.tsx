@@ -25,7 +25,7 @@ export const UserDashboard: React.FC = () => {
     dispatch(logout());
   };
 
-  if (!token) return <Navigate to="/login" />;
+  if (!token) return <Navigate to="/" />;
   // if (role === 'admin') return <Navigate to="/admin" />;
 
   return (

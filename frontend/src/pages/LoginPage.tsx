@@ -5,10 +5,12 @@ import { loginUser } from '../store/authSlice';
 import { RootState } from '../store';
 import { Navigate, Link } from 'react-router-dom';
 import { loginSchema, LoginFormData } from '../schemas/authSchema';
+import { getRoleFromToken } from '../lib/authUtils';
 
-export const Login: React.FC = () => {
+ const Login = () => {
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.auth.token);
+  const role = getRoleFromToken(token);
   const {
     register,
     handleSubmit,
@@ -21,7 +23,9 @@ export const Login: React.FC = () => {
     dispatch(loginUser(data) as any); // Type assertion for thunk
   };
 
-  if (token) return <Navigate to="/dashboard" />;
+  if (token) {
+    return <Navigate to={role === 'admin' ? '/admin' : '/dashboard'} replace />;
+  }
 
   return (
     <div className="max-w-md mx-auto p-4">
@@ -30,7 +34,7 @@ export const Login: React.FC = () => {
         <div>
           <input
             {...register('username')}
-            placeholder="Email"
+            placeholder="Username"
             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
@@ -57,3 +61,5 @@ export const Login: React.FC = () => {
     </div>
   );
 };
+
+export default Login

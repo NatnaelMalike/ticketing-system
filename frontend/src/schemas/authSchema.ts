@@ -25,9 +25,8 @@ export const signupSchema = z.object({
         { message: 'Confirm password is required' }
       ),
     role: z
-      .string()
-      .refine((val) => ['user', 'admin'].includes(val), {
-        message: 'Role must be either "user" or "admin"',
+      .enum(['admin', 'user'], {
+        errorMap: () => ({message: 'Role must be either "user" or "admin"'})
       })
       .default('user'),
   }).refine(

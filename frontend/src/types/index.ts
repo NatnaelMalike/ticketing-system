@@ -14,6 +14,7 @@ export interface Ticket {
   export interface UserCredentials {
     username: string;
     password: string;
-    role?: 'user' | 'admin';
+    confirmPassword?: string;
+    role?: 'user' | 'admin' | undefined;
     remember?: boolean;
   }
