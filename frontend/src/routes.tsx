@@ -7,7 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import UnAuthorized from "./pages/Unauthorized";
 import NotFoundPage from "./pages/404";
 const router = createBrowserRouter([
-  { path: "/", element: <Login /> },
+  { path: "/", element: <Login />, },
 
   {
     path: "dashboard",

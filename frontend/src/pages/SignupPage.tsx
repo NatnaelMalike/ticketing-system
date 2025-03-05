@@ -6,10 +6,13 @@ import { RootState } from "../store";
 import { Navigate, Link } from "react-router-dom";
 import { signupSchema, SignupFormData } from "../schemas/authSchema";
 import { getRoleFromToken } from "../lib/authUtils";
+import { ScaleLoader } from "react-spinners";
 
 export const Signup: React.FC = () => {
   const dispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.auth.token);
+  const { token, loading, error } = useSelector(
+    (state: RootState) => state.auth
+  );
   const role = getRoleFromToken(token);
   const {
     register,
@@ -20,7 +23,6 @@ export const Signup: React.FC = () => {
   });
 
   const onSubmit = (data: SignupFormData) => {
-    console.log("Form submitted:", data);
     dispatch(signupUser(data) as any);
   };
 
@@ -61,7 +63,9 @@ export const Signup: React.FC = () => {
             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.confirmPassword && (
-            <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+            <p className="text-red-500 text-sm">
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
         <div>
@@ -79,9 +83,9 @@ export const Signup: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full"
         >
-          Signup
+          {loading ? <ScaleLoader color="#ffffff" height={15} /> : "Signup"}
         </button>
       </form>
       <p className="mt-2">
@@ -90,6 +94,8 @@ export const Signup: React.FC = () => {
           Login
         </Link>
       </p>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
     </div>
   );
 };

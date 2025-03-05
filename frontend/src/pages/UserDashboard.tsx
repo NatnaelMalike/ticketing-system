@@ -7,11 +7,12 @@ import { logout } from '../store/authSlice';
 import { TicketForm } from '../components/ticket/TicketForm';
 import { TicketList } from '../components/ticket/TicketList';
 import { TicketFormData } from '../schemas/ticketSchema';
+import { PuffLoader } from 'react-spinners';
 
 export const UserDashboard: React.FC = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
-  const tickets = useSelector((state: RootState) => state.tickets.tickets);
+  const {tickets, loading, error} = useSelector((state: RootState) => state.tickets);
 
   useEffect(() => {
     if (token) dispatch(fetchTickets() as any);
@@ -26,7 +27,6 @@ export const UserDashboard: React.FC = () => {
   };
 
   if (!token) return <Navigate to="/" />;
-  // if (role === 'admin') return <Navigate to="/admin" />;
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -40,7 +40,9 @@ export const UserDashboard: React.FC = () => {
         </button>
       </div>
       <TicketForm onSubmit={handleCreateTicket} />
-      <TicketList tickets={tickets} isAdmin={false} />
+      <PuffLoader color='#ff0000' loading={loading}/>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {!loading && !error &&<TicketList tickets={tickets} isAdmin={false} />}
     </div>
   );
 };

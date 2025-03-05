@@ -6,11 +6,12 @@ import { fetchTickets, updateTicketStatus } from '../store/ticketSlice';
 import { logout } from '../store/authSlice';
 import { TicketList } from '../components/ticket/TicketList';
 import { Ticket } from '../types';
+import { PuffLoader } from 'react-spinners';
 
 export const AdminDashboard: React.FC = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
-  const tickets = useSelector((state: RootState) => state.tickets.tickets);
+  const {tickets, error, loading} = useSelector((state: RootState) => state.tickets);
 
   useEffect(() => {
     if (token) dispatch(fetchTickets() as any);
@@ -25,7 +26,6 @@ export const AdminDashboard: React.FC = () => {
   };
 
   if (!token) return <Navigate to="/" />;
-  // if (role !== 'admin') return <Navigate to="/dashboard" />;
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -38,7 +38,9 @@ export const AdminDashboard: React.FC = () => {
           Logout
         </button>
       </div>
-      <TicketList tickets={tickets} isAdmin={true} onUpdateStatus={handleUpdateStatus} />
+      <PuffLoader color='#ff0000' loading={loading}/>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {!loading && !error &&<TicketList tickets={tickets} isAdmin={true} onUpdateStatus={handleUpdateStatus} />}
     </div>
   );
 };

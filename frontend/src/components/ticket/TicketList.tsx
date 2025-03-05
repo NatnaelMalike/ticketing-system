@@ -4,6 +4,7 @@ interface TicketListProps {
   tickets: Ticket[];
   isAdmin: boolean;
   onUpdateStatus?: (id: string, status: Ticket['status']) => void;
+  
 }
 
 export const TicketList: React.FC<TicketListProps> = ({ tickets, isAdmin, onUpdateStatus }) => {

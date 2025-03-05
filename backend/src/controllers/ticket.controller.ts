@@ -29,5 +29,5 @@ export const updateTicket: RequestHandler = asyncHandler(async (req, res)=>{
          res.status(404).json({ message: 'Ticket not found' });
          return
     }
-    res.json({ message: 'Ticket updated successfully', ticket });
+    res.json(ticket);
 })

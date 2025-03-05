@@ -1,12 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createTicketSchema, TicketFormData } from '../../schemas/ticketSchema';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { ScaleLoader } from 'react-spinners';
 
 interface TicketFormProps {
   onSubmit: (data: TicketFormData) => void;
 }
 
 export const TicketForm: React.FC<TicketFormProps> = ({ onSubmit }) => {
+  const { creating } = useSelector((state: RootState) => state.tickets);
   const {
     register,
     handleSubmit,
@@ -43,7 +47,14 @@ export const TicketForm: React.FC<TicketFormProps> = ({ onSubmit }) => {
         type="submit"
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
       >
-        Create Ticket
+        {creating ? (
+           <ScaleLoader
+             color="#ffffff"
+             height={15}
+           />
+          ) : (
+            "Create Ticket"
+          )}
       </button>
     </form>
   );

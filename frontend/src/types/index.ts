@@ -5,10 +5,13 @@ export interface Ticket {
     status: 'Open' | 'In Progress' | 'Closed';
     createdBy: string;
     createdAt?: string;
+    
   }
   
   export interface AuthResponse {
     token: string;
+    loading: boolean;
+    error: string | null
   }
   
   export interface UserCredentials {
