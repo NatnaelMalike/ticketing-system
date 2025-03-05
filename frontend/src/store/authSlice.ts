@@ -37,11 +37,14 @@ const authSlice = createSlice({
     setError: (state, action: PayloadAction<string>)=>{
       state.loading= false
       state.error = action.payload
-    }
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
   },
 });
 
-export const { loginSuccess, logout, setLoading, setError } = authSlice.actions;
+export const { loginSuccess, logout, setLoading, setError, clearError } = authSlice.actions;
 
 export const loginUser = (credentials: { username: string; password: string }) => async (
   dispatch: AppDispatch
@@ -69,7 +72,7 @@ export const signupUser = (credentials: UserCredentials ) => async (
     dispatch(loginSuccess({ token: response.token}))
   } catch (error) {
     if (axios.isAxiosError(error)){
-      dispatch(setError(error.response?.data))
+      dispatch(setError(error.response?.data.message))
     }else{
       dispatch(setError('Signup failed. Please try again.'))
     }
