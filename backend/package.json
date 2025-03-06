@@ -7,9 +7,7 @@
     "build": "tsc",
     "dev": "nodemon src/index.ts"
   },
-  "engines": {
-    "node": "18"
-  },
+ 
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,7 +19,7 @@
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/mongoose": "^5.11.96",
-    "@types/node": "^22.13.9",
+    "@types/node": "^18.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
