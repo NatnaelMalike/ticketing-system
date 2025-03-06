@@ -24,7 +24,7 @@ export const AdminDashboard: React.FC = () => {
   const handleUpdateStatus = (id: string, status: Ticket["status"]) => {
     dispatch(updateTicketStatus(id, status) as any);
   };
-
+  console.log(isModalOpen)
   const handleLogout = () => {
     dispatch(logout());
   };
