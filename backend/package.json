@@ -7,6 +7,9 @@
     "build": "tsc",
     "dev": "nodemon src/index.ts"
   },
+  "engines": {
+    "node": "18"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
