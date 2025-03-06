@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { Ticket, AuthResponse, UserCredentials } from "../types";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/",
+  baseURL: import.meta.env.VITE_BASE_URL,
 });
 
 // get auth headers
