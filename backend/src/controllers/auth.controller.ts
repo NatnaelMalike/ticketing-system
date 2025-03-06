@@ -47,7 +47,7 @@ export const signup: RequestHandler = async (req, res) => {
     .status(201)
     .json({
       message: "Account created successfully!",
-      user: UserDTO.fromUser(newUser),
+      user: UserDTO.fromUser(newUser).username,
       token,
     });
 };
