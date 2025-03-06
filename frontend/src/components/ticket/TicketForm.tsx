@@ -1,15 +1,19 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createTicketSchema, TicketFormData } from '../../schemas/ticketSchema';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { ScaleLoader } from 'react-spinners';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createTicketSchema, TicketFormData } from "../../schemas/ticketSchema";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { ScaleLoader } from "react-spinners";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { FormMessage } from "../ui/form-message";
 
 interface TicketFormProps {
   onSubmit: (data: TicketFormData) => void;
+  onClose: () => void;
 }
 
-export const TicketForm: React.FC<TicketFormProps> = ({ onSubmit }) => {
+export const TicketForm: React.FC<TicketFormProps> = ({ onSubmit, onClose }) => {
   const { creating } = useSelector((state: RootState) => state.tickets);
   const {
     register,
@@ -22,40 +26,36 @@ export const TicketForm: React.FC<TicketFormProps> = ({ onSubmit }) => {
 
   const handleFormSubmit = (data: TicketFormData) => {
     onSubmit(data);
+    onClose()
     reset();
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+    <div className="w-full">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       <div>
-        <input
-          {...register('title')}
-          placeholder="Ticket Title"
-          className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+        <Input {...register("title")} placeholder="Ticket Title" />
+        {errors.title && (
+          <FormMessage message={errors.title.message}/>
+        )}
       </div>
       <div>
-        <textarea
-          {...register('description')}
-          placeholder="Description"
-          className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+        <Textarea {...register("description")} placeholder="Description" />
+        {errors.description && (
+          <FormMessage message={errors.description.message} />
+        )}
       </div>
       <button
         type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        className="px-4 py-2 mt-8 w-full bg-blue-500 text-white rounded-md hover:bg-blue-600"
       >
         {creating ? (
-           <ScaleLoader
-             color="#ffffff"
-             height={15}
-           />
-          ) : (
-            "Create Ticket"
-          )}
+          <ScaleLoader color="#ffffff" height={15} />
+        ) : (
+          "Create Ticket"
+        )}
       </button>
     </form>
+    </div>
   );
 };

@@ -2,13 +2,19 @@ import { RequestHandler } from "express";
 import Ticket from "../models/Ticket";
 import { asyncHandler } from "../middleware/asyncHandler.middleware";
 import { isValidObjectId } from "mongoose";
+import { format } from "date-fns";
+import { enUS } from "date-fns/locale";
 
 export const getTickets: RequestHandler = asyncHandler(async (req, res) => {
   const tickets =
     req.user.role === "admin"
-      ? await Ticket.find()
-      : await Ticket.find({ createdBy: req.user._id });
-  res.status(200).json(tickets);
+      ? await Ticket.find().populate("createdBy", "username")
+      : await Ticket.find({ createdBy: req.user._id }).populate("createdBy", "username");
+      const formattedTickets = tickets.map(ticket => ({
+        ...ticket.toObject(),
+        createdAt: format(new Date(ticket.createdAt), "EEEE - dd-MM-yyyy", { locale: enUS }),
+      }));
+  res.status(200).json(formattedTickets);
 });
 
 export const createTicket: RequestHandler = asyncHandler( async (req, res)=>{

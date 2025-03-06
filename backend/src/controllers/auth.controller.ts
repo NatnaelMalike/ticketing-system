@@ -9,7 +9,7 @@ export const login: RequestHandler = async (req, res) => {
   const { username, password, remember } = req.body;
   const user = await User.findOne({ username });
   if (!user) {
-    res.status(404).json({ message: "No account with current username." });
+    res.status(404).json({ message: "No account with this username." });
     return;
   }
   const isValidPassword: boolean = await bcrypt.compare(
@@ -25,7 +25,7 @@ export const login: RequestHandler = async (req, res) => {
     .status(200)
     .json({
       message: "Logged in successfully.",
-      user: UserDTO.fromUser(user),
+      user: UserDTO.fromUser(user).username,
       token,
     });
 };
@@ -34,7 +34,7 @@ export const signup: RequestHandler = async (req, res) => {
   const { username, password, role } = req.body as IUser;
   const prevUser = await User.findOne({ username });
   if (prevUser) {
-    res.status(400).json({ message: "Account already exists." });
+    res.status(400).json({ message: "Username already exists." });
     return;
   }
   const newUser: IUser = await User.create({

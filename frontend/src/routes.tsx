@@ -6,11 +6,13 @@ import { Signup } from "./pages/SignupPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UnAuthorized from "./pages/Unauthorized";
 import NotFoundPage from "./pages/404";
+
+
 const router = createBrowserRouter([
   { path: "/", element: <Login />, },
 
   {
-    path: "dashboard",
+    path: "/dashboard",
     element: (
       <ProtectedRoute allowedRole="user">
         <UserDashboard />

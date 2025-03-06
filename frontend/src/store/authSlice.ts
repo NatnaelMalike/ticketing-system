@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const initialState: AuthResponse = {
   token: localStorage.getItem('token') ?? "",
+  user: localStorage.getItem('username') ?? "",
   loading: false,
   error: null
 
@@ -16,9 +17,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginSuccess: (state, action: PayloadAction<{ token: string }>) => {
+    loginSuccess: (state, action: PayloadAction<{ token: string, user: string }>) => {
       state.token = action.payload.token;
+      state.user = action.payload.user;
       localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('username', action.payload.user);
       state.loading = false
       state.error = null
 
@@ -26,6 +29,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.token = "";
       localStorage.removeItem('token');
+      localStorage.removeItem('username');
       state.loading = false
       state.error = null
 
@@ -52,7 +56,7 @@ export const loginUser = (credentials: { username: string; password: string }) =
   dispatch(setLoading())
   try {
     const response = await login(credentials);
-    dispatch(loginSuccess({ token: response.token }));
+    dispatch(loginSuccess({ token: response.token, user: response.user }));
   } catch (error) {
     if (axios.isAxiosError(error)){
       dispatch(setError(error.response?.data.message))
@@ -69,7 +73,7 @@ export const signupUser = (credentials: UserCredentials ) => async (
   dispatch(setLoading())
   try {
     const response = await signup(credentials);
-    dispatch(loginSuccess({ token: response.token}))
+    dispatch(loginSuccess({ token: response.token, user: response.user}))
   } catch (error) {
     if (axios.isAxiosError(error)){
       dispatch(setError(error.response?.data.message))

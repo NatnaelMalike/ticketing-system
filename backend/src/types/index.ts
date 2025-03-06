@@ -16,6 +16,7 @@ export interface ITicket {
     description: string;
     status: 'Open' | 'In Progress' | 'Closed';
     createdBy: Schema.Types.ObjectId;
+    createdAt: string
 }
 
 export type UserRole = 'user' | 'admin'

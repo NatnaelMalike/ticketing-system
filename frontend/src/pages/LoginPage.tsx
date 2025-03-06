@@ -8,7 +8,9 @@ import { loginSchema, LoginFormData } from "../schemas/authSchema";
 import { getRoleFromToken } from "../lib/authUtils";
 import {  ScaleLoader } from "react-spinners";
 import { useEffect, useState } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, ShieldX } from "lucide-react";
+import { Input } from "../components/ui/input";
+import { FormMessage } from "../components/ui/form-message";
 const Login = () => {
   const [isvisible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -41,41 +43,39 @@ const Login = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
     <div className="w-full max-w-md rounded-lg shadow-lg bg-white px-4 py-6 md:px-6 md:py-8">
-      <h1 className="text-2xl font-bold mb-8 max-sm:text-center">Login</h1>
+      <h1 className="text-2xl font-bold mb-8 text-center">Login</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div>
-          <input
-            {...register("username")}
-            placeholder="Username"
-            className="w-full p-2 shadow-lg rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.username && (
-            <p className="text-red-500 text-sm pt-2">{errors.username.message}</p>
-          )}
-        </div>
-        <div >
-          <div className="relative">
-          <input
-            {...register("password")}
-            type={isvisible ? "text" : "password"}
-            placeholder="Password"
-            className="w-full p-2 shadow-lg rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-           <span className="absolute top-1/2 -translate-y-1/2 items-center cursor-pointer right-0 mr-4" onClick={togglePasswordVisibility}>
-                                    {isvisible ? (
-                                        <EyeOffIcon className="w-5 h-5" />
-                                    ) : (
-                                        <EyeIcon className="w-5 h-5" />
-                                    )}
-                                </span>
+      <div>
+            <Input {...register("username")} placeholder="Username" />
+            {errors.username && (
+              <FormMessage message={errors.username.message} />
+            )}
           </div>
-          {errors.password && (
-            <p className="text-red-500 text-sm pt-2">{errors.password.message}</p>
-          )}
-        </div>
+          <div>
+            <div className="relative">
+              <Input
+                {...register("password")}
+                type={isvisible ? "text" : "password"}
+                placeholder="Password"
+              />
+              <span
+                className="absolute top-1/2 -translate-y-1/2 items-center cursor-pointer right-0 mr-4"
+                onClick={togglePasswordVisibility}
+              >
+                {isvisible ? (
+                  <EyeOffIcon className="w-5 h-5" />
+                ) : (
+                  <EyeIcon className="w-5 h-5" />
+                )}
+              </span>
+            </div>
+            {errors.password && (
+              <FormMessage message={errors.password.message} />
+            )}
+          </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full"
+          className=" mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full"
         >
           {loading ? (
            <ScaleLoader
@@ -88,13 +88,13 @@ const Login = () => {
           )}
         </button>
       </form>
-      <p className="mt-4 text-right">
+      <p className="mt-4 text-center">
         Don't have an account?{""}
         <Link to="/signup" className="text-blue-500 ml-1" replace>
           Signup
         </Link>
       </p>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && <p className="text-red-500 mt-4 text-center place-items-center"><ShieldX />{error}</p>}
     </div>
     </div>
   );
