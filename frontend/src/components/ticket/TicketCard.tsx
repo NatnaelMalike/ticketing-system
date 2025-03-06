@@ -31,7 +31,6 @@ const TicketCard = ({
             </h3>
             <p className="text-gray-500 text-sm text-justify">
               {description}
-              Lorem sit amet consectetur adipisicing elit. Tenetur, ipsam?
             </p>
           </div>
           <span
