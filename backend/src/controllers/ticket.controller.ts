@@ -20,8 +20,12 @@ export const getTickets: RequestHandler = asyncHandler(async (req, res) => {
 export const createTicket: RequestHandler = asyncHandler( async (req, res)=>{
    const {title, description} =  req.body 
    const createdBy = req.user._id
-   const ticket = await Ticket.create({title, description, createdBy})
-   res.status(201).json(ticket)
+   const ticket = await (await Ticket.create({title, description, createdBy})).populate("createdBy", "username")
+   const formattedTicket = {
+    ...ticket.toObject(),
+    createdAt: format(new Date(ticket.createdAt), "EEEE - dd-MM-yyyy", { locale: enUS }),
+  };
+   res.status(201).json(formattedTicket)
 })
 
 export const updateTicket: RequestHandler = asyncHandler(async (req, res)=>{
@@ -30,10 +34,14 @@ export const updateTicket: RequestHandler = asyncHandler(async (req, res)=>{
         res.status(400).json({ message: "Invalid Ticket id." });
         return;
       }
-    const ticket = await Ticket.findByIdAndUpdate(req.params.id, {status}, {new: true})
+    const ticket = await Ticket.findByIdAndUpdate(req.params.id, {status}, {new: true}).populate("createdBy", "username")
     if(!ticket){
          res.status(404).json({ message: 'Ticket not found' });
          return
     }
-    res.json(ticket);
+    const formattedTicket = {
+      ...ticket.toObject(),
+      createdAt: format(new Date(ticket.createdAt), "EEEE - dd-MM-yyyy", { locale: enUS }),
+    };
+    res.json(formattedTicket);
 })
